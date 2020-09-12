@@ -52,6 +52,7 @@ module.exports = [
     url: '/vue-element-admin/user/info\.*',
     type: 'get',
     response: config => {
+      console.log(config);
       const { token } = config.query
       const info = users[token]
 

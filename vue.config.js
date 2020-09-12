@@ -6,7 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || 'vue Element Admin' // page title
+const name = '果盛直播后台' // page title
 
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
@@ -38,6 +38,9 @@ module.exports = {
     },
     before: require('./mock/mock-server.js')
   },
+  css:{ 
+    sourceMap: true 
+   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.

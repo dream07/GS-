@@ -1,6 +1,7 @@
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
+import Cookies from 'js-cookie'
 
 const state = {
   token: getToken(),
@@ -46,36 +47,46 @@ const actions = {
 
   // get user info
   getInfo({ commit, state }) {
+    console.log(state.token);
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
+      // getInfo('admin-token').then(response => {
+      //   const { data } = response
+      //   console.log(response);
+      //   if (!data) {
+      //     reject('Verification failed, please Login again.')
+      //   }
 
-        if (!data) {
-          reject('Verification failed, please Login again.')
-        }
+      //   const { roles, name, avatar, introduction } = data
 
-        const { roles, name, avatar, introduction } = data
-
-        // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
-        }
-
-        commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        commit('SET_INTRODUCTION', introduction)
-        resolve(data)
-      }).catch(error => {
-        reject(error)
-      })
+      //   // roles must be a non-empty array
+      //   if (!roles || roles.length <= 0) {
+      //     reject('getInfo: roles must be a non-null array!')
+      //   }
+      //   console.log(roles);
+      //   console.log(name);
+      //   console.log(avatar);
+      //   console.log(introduction);
+      //   console.log(data);
+        commit('SET_ROLES', ["admin"])
+        commit('SET_NAME', "Super Admin")
+        commit('SET_AVATAR', "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif")
+        commit('SET_INTRODUCTION', "introduction")
+        resolve({
+          roles: ['admin'],
+          introduction: 'I am a super administrator',
+          avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+          name: 'Super Admin'
+        })
+      // }).catch(error => {
+      //   // reject(error)
+      // })
     })
   },
 
   // user logout
   logout({ commit, state, dispatch }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
+      // logout(state.token).then(() => {
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
         removeToken()
@@ -86,9 +97,9 @@ const actions = {
         dispatch('tagsView/delAllViews', null, { root: true })
 
         resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      // }).catch(error => {
+      //   reject(error)
+      // })
     })
   },
 
